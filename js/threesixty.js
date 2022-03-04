@@ -33,6 +33,9 @@ $(document).ready(function () {
 			frames = [],
 			// The value of the end frame which the currentFrame will be tweened to during the sliding animation
 			endFrame = 0,
+			// Set min and max to 0 to get a loop
+			min_endframe = 0,
+			max_endframe = 90,
 			// We keep track of the loaded images by increasing every time a new image is added to the image slider
 			loadedImages = 0,
 
@@ -135,7 +138,7 @@ $(document).ready(function () {
 		// Sets the "ready" variable to true, so the app now reacts to user interaction 
 		ready = true;
 		// Sets the endFrame to an initial value...
-		endFrame = -720;
+		endFrame = 45;
 		// ...so when the animation renders, it will initially take 4 complete spins.
 		if(!demoMode) {
 			refresh();
@@ -339,6 +342,14 @@ $(document).ready(function () {
 				pointerDistance = pointerEndPosX - pointerStartPosX;
 				// Calculates the endFrame using the distance between the pointer X starting and ending positions and the "speedMultiplier" values
 				endFrame = currentFrame + Math.ceil((totalFrames - 1) * speedMultiplier * (pointerDistance / $container.width()));
+				if (min_endframe != 0 || max_endframe != 0)
+				{					
+					if (endFrame < min_endframe) {
+						endFrame = min_endframe;
+					} else if (endFrame > max_endframe) {
+						endFrame = max_endframe;
+					}
+				}
 				// Updates the image slider frame animation
 				refresh();
 				// restarts counting the pointer tracking period
